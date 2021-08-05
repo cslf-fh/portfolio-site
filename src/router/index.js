@@ -1,28 +1,43 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/Home.vue';
+import About from '../views/About.vue';
+import goTo from 'vuetify/lib/services/goto';
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
-];
+export default new VueRouter({
+  //mode: 'history',
+  base: process.env.BASE_URL,
+  scrollBehavior: (to, from, savedPosition) => {
+    let scrollTo = 0;
 
-const router = new VueRouter({
-  routes,
+    if (to.hash) {
+      scrollTo = to.hash;
+    } else if (savedPosition) {
+      scrollTo = savedPosition.y;
+    }
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(goTo(scrollTo));
+      }, 0);
+    });
+  },
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home,
+      meta: {
+        title: `cslf-fh's web`,
+        desc: `This is a cslf-fh's website. Thank you for watching`,
+      },
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
+      meta: { title: `about | cslf-fh's web`, desc: 'about' },
+    },
+  ],
 });
-
-export default router;
