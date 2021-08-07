@@ -33,4 +33,7 @@ export default new Vuetify({
       },
     },
   },
+  breakpoint: {
+    scrollBarWidth: 0,
+  },
 });
