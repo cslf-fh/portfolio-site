@@ -7,7 +7,7 @@ import goTo from 'vuetify/lib/services/goto';
 Vue.use(VueRouter);
 
 export default new VueRouter({
-  //mode: 'history',
+  mode: 'history',
   base: process.env.BASE_URL,
   scrollBehavior: (to, from, savedPosition) => {
     let scrollTo = 0;

@@ -5,7 +5,7 @@
       overflow: 'hidden',
     }"
   >
-    <v-app-bar class="font-family" app dark>
+    <v-app-bar app dark>
       <router-link to="./">
         <v-btn outlined tile style="text-transform: none">
           cslf-fh's web
@@ -64,16 +64,16 @@
       </div>
     </v-app-bar>
     <v-navigation-drawer
-      class="font-family text-center"
+      class="text-center"
       v-model="drawer"
       dark
-      absolute
+      app
       bottom
       temporary
     >
       <v-list nav dark>
         <v-list-item-group color="orange">
-          <v-list-item v-for="i in links" :key="i.name">
+          <v-list-item v-for="i in links" :key="i.name" :to="i.link">
             <v-list-item-title>{{ i.name }}</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
@@ -85,10 +85,6 @@
     <Carousel></Carousel>
 
     <v-main>
-      <v-switch v-model="$vuetify.theme.dark"></v-switch>
-      <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
-        <v-icon>mdi-invert-colors</v-icon>
-      </v-btn>
       <v-tabs>
         <v-tab to="./">home</v-tab>
         <v-tab to="./about">about</v-tab>
@@ -96,14 +92,13 @@
       <router-view />
     </v-main>
 
-    <v-footer class="font-family" dark>
+    <v-spacer class="py-16"></v-spacer>
+
+    <v-footer dark color="transparent">
+      <div class="skew--footer"></div>
       <v-row no-gutters align="center" justify="space-around">
-        <Shares size="32" class="py-4"></Shares>
-        <v-col cols="12"> </v-col>
-        <v-btn v-for="i in links" :key="i.name" :to="i.link">
-          {{ i.name }}
-        </v-btn>
-        <v-col cols="12" class="py-2">
+        <Shares size="32"></Shares>
+        <v-col cols="12">
           <v-divider></v-divider>
         </v-col>
         <v-card flat color="transparent">
@@ -119,7 +114,7 @@
         </v-card>
       </v-row>
     </v-footer>
-    <ScrollTop color="primary"></ScrollTop>
+    <ScrollTop color="orange"></ScrollTop>
   </v-app>
 </template>
 
@@ -163,6 +158,13 @@ export default {
   mounted() {
     const routeInstance = this.$route;
     this.createTitleDesc(routeInstance);
+    setTimeout(
+      function () {
+        this.transition = true;
+      }.bind(this),
+      0
+    );
+    window.addEventListener('load', this.scrollLoaded); //画像読み込み後にスクロール
   },
   computed: {
     theme() {
@@ -182,6 +184,16 @@ export default {
     },
   },
   methods: {
+    scrollLoaded() {
+      const hash = this.$route.hash; //ハッシュ取得
+      if (hash !== '') {
+        const id = hash.replace('#', ''); //#削除
+        const element = document.getElementById(id);
+        const offset = element.getBoundingClientRect().top; //ブラウザ表示領域上端からの相対距離
+        const height = offset + window.pageYOffset; //+ ドキュメント上端からのスクロール量
+        this.$vuetify.goTo(height);
+      }
+    },
     createTitleDesc(routeInstance) {
       // title設定
       if (routeInstance.meta.title) {
@@ -214,7 +226,16 @@ body {
   }
 }
 
-.font-family {
-  font-family: 'Josefin Sans', sans-serif;
+.skew {
+  &--footer {
+    position: absolute;
+    top: -5%;
+    left: -50%;
+    height: 200%;
+    width: 200%;
+    background: #272727;
+    transform: skewY(-3deg);
+    z-index: 0;
+  }
 }
 </style>
