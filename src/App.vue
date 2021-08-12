@@ -5,94 +5,81 @@
       overflow: 'hidden',
     }"
   >
-    <v-app-bar app dark>
+    <v-app-bar app dark height="56">
       <router-link to="./">
-        <v-btn outlined tile style="text-transform: none">
+        <v-btn
+          outlined
+          tile
+          style="text-transform: none"
+          @click="$vuetify.goTo(0), (section = 0)"
+        >
           cslf-fh's web
         </v-btn>
       </router-link>
-      <v-spacer></v-spacer>
       <v-tabs
         v-if="$vuetify.breakpoint.smAndUp"
-        v-model="tabs"
+        v-model="section"
+        class="mr-8"
         color="orange"
         right
-        :hide-slider="tabs === 0"
+        :hide-slider="section === 0"
       >
         <v-tab disabled></v-tab>
-        <v-tab v-for="i in links" :key="i.name" :to="i.link">
+        <v-tab v-for="i in links" :key="i.name" @click="scroll(i.offsetY)">
           {{ i.name }}
         </v-tab>
-        <v-btn
-          class="mt-1 mr-4"
-          icon
-          @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-        >
-          <v-icon>mdi-invert-colors</v-icon>
-        </v-btn>
       </v-tabs>
-      <div v-else>
-        <v-btn
-          class="mt-n3 mr-10"
-          absolute
-          top
-          right
-          icon
-          @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-        >
-          <v-icon>mdi-invert-colors</v-icon>
-        </v-btn>
-        <v-spacer></v-spacer>
-        <v-fab-transition>
-          <v-btn
-            v-if="!drawer"
-            class="mt-n3 mr-n2"
-            absolute
-            top
-            right
-            icon
-            @click.stop="drawer = !drawer"
-          >
-            <v-icon>mdi-menu</v-icon>
-          </v-btn>
-        </v-fab-transition>
-        <v-fab-transition>
-          <v-btn v-if="drawer" class="mt-n3 mr-n2" absolute top right icon>
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-fab-transition>
-      </div>
+      <v-btn
+        v-if="$vuetify.theme.dark"
+        class="mr-n2"
+        absolute
+        top
+        right
+        icon
+        style="margin-top: -14px"
+        @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+      >
+        <v-icon>mdi-invert-colors</v-icon>
+      </v-btn>
+      <v-btn
+        v-else
+        class="mr-n2"
+        absolute
+        top
+        right
+        icon
+        :style="{
+          'margin-top': '-14px',
+          transform: 'scale(-1, 1)',
+        }"
+        @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+      >
+        <v-icon>mdi-invert-colors</v-icon>
+      </v-btn>
     </v-app-bar>
-    <v-navigation-drawer
-      class="text-center"
-      v-model="drawer"
+    <v-bottom-navigation
+      v-if="$vuetify.breakpoint.xsOnly"
+      v-model="section"
+      background-color="#272727"
+      color="orange"
       dark
       app
-      bottom
-      temporary
+      shift
+      grow
     >
-      <v-list nav dark>
-        <v-list-item-group color="orange">
-          <v-list-item v-for="i in links" :key="i.name" :to="i.link">
-            <v-list-item-title>{{ i.name }}</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-      <template v-slot:append>
-        <Shares class="ma-auto"></Shares>
-      </template>
-    </v-navigation-drawer>
+      <v-btn class="d-none"> </v-btn>
+      <v-btn v-for="i in links" :key="i.name" text @click="scroll(i.offsetY)">
+        <span v-text="i.name"></span>
+        <v-icon>{{ i.icon }}</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
     <Carousel></Carousel>
 
     <v-main>
-      <v-tabs>
-        <v-tab to="./">home</v-tab>
-        <v-tab to="./about">about</v-tab>
-      </v-tabs>
       <router-view />
     </v-main>
 
-    <v-spacer class="py-16"></v-spacer>
+    <div class="py-16"></div>
 
     <v-footer dark color="transparent">
       <div class="skew--footer"></div>
@@ -112,13 +99,21 @@
             cslf-fh All Rights Reserved
           </v-card-text>
         </v-card>
+        <v-col v-if="$vuetify.breakpoint.xsOnly" cols="12">
+          <div class="py-7"></div>
+        </v-col>
       </v-row>
     </v-footer>
-    <ScrollTop color="orange"></ScrollTop>
+
+    <ScrollTop
+      :class="{ 'mb-14': $vuetify.breakpoint.xsOnly }"
+      color="orange"
+    ></ScrollTop>
   </v-app>
 </template>
 
 <script>
+//ダークモードの状態保持
 const STORAGE_KEY = 'darkmode';
 const themeStorage = {
   fetch: function () {
@@ -143,12 +138,17 @@ export default {
   },
   data() {
     return {
-      drawer: false,
-      tabs: 0,
+      section: 0, //現在の表示箇所をナビゲーションのvalueに渡す値
+      sectionMargin: 300, //scrollInによるエフェクトの余白
+      //リンクに関する値
       links: [
-        { name: 'about', link: './#about' },
-        { name: 'portfolio', link: './#portfolio' },
-        { name: 'contact', link: './#contact' },
+        { name: 'about', offsetY: '', icon: 'mdi-account' },
+        {
+          name: 'portfolio',
+          offsetY: '',
+          icon: 'mdi-file-table-box-multiple',
+        },
+        { name: 'contact', offsetY: '', icon: 'mdi-email' },
       ],
     };
   },
@@ -158,13 +158,9 @@ export default {
   mounted() {
     const routeInstance = this.$route;
     this.createTitleDesc(routeInstance);
-    setTimeout(
-      function () {
-        this.transition = true;
-      }.bind(this),
-      0
-    );
-    window.addEventListener('load', this.scrollLoaded); //画像読み込み後にスクロール
+    this.offsets();
+    window.addEventListener('resize', this.offsets);
+    window.addEventListener('scroll', this.scrollIn);
   },
   computed: {
     theme() {
@@ -184,16 +180,6 @@ export default {
     },
   },
   methods: {
-    scrollLoaded() {
-      const hash = this.$route.hash; //ハッシュ取得
-      if (hash !== '') {
-        const id = hash.replace('#', ''); //#削除
-        const element = document.getElementById(id);
-        const offset = element.getBoundingClientRect().top; //ブラウザ表示領域上端からの相対距離
-        const height = offset + window.pageYOffset; //+ ドキュメント上端からのスクロール量
-        this.$vuetify.goTo(height);
-      }
-    },
     createTitleDesc(routeInstance) {
       // title設定
       if (routeInstance.meta.title) {
@@ -213,6 +199,36 @@ export default {
           .querySelector("meta[name='description']")
           .setAttribute('content', 'description is not set');
       }
+    },
+    //スクロール対象のページ上端からの距離を取得
+    offsets() {
+      for (const i of this.links) {
+        const id = i.name;
+        const element = document.getElementById(id);
+        i.offsetY = element.getBoundingClientRect().top + window.pageYOffset; //dataの配列に格納(ウィンドウ上端からの距離 + スクロール量)
+      }
+    },
+    //受け取った高さへのスクロール
+    scroll(offsetY) {
+      return this.$vuetify.goTo(offsetY);
+    },
+    //スクロール量で表示するナビゲーションを設定
+    scrollIn() {
+      const height = [];
+      const offset = window.pageYOffset; //ページ上端からのスクロール量
+      //ページ下端への到達(ページの高さ - 画面サイズ)
+      const bottom =
+        document.getElementById('app').offsetHeight - window.innerHeight;
+      for (const i of this.links) {
+        height.push(i.offsetY - this.sectionMargin);
+      }
+      height[0] <= offset && offset < height[1]
+        ? (this.section = 1)
+        : height[1] <= offset && offset < height[2]
+        ? (this.section = 2)
+        : height[2] <= offset && offset < bottom
+        ? (this.section = 3)
+        : (this.section = 0);
     },
   },
 };

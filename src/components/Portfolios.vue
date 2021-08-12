@@ -7,7 +7,7 @@
             class="align-center"
             :src="i.img"
             :lazy-src="i.img"
-            max-height="200"
+            height="200"
             gradient="to top right, rgba(255,255,255,.33), rgba(255,255,255,.7)"
           >
             <v-card-text class="text-h5 black--text" v-text="i.title">

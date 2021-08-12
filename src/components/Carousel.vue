@@ -1,5 +1,5 @@
 <template>
-  <div class="carousel">
+  <div class="black--text carousel">
     <span class="text-h1 carousel__title">CSLF-<br />FH</span>
     <span class="carousel__scroll">SCROLL</span>
     <VueSlickCarousel v-bind="settings">
@@ -62,7 +62,7 @@ export default {
   position: relative;
   &__title {
     position: absolute;
-    top: 20%;
+    top: 15%;
     left: 10%;
     white-space: pre;
     z-index: 1;
@@ -86,6 +86,7 @@ export default {
       transform: translate(-50%, -50%);
       background-color: #000;
       z-index: 1;
+      visibility: hidden;
       animation: bar 3s cubic-bezier(0.9, 0, 0.1, 1) 0.5s infinite;
     }
   }
@@ -94,6 +95,7 @@ export default {
 @keyframes bar {
   0% {
     transform: translateY(-100%);
+    visibility: visible;
   }
   100% {
     transform: translateY(100%);
