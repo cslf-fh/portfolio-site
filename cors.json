@@ -1,0 +1,13 @@
+[
+  {
+    "origin": [
+      "https://cslf-fh.web.app",
+      "https://cslf-fh.firebaseapp.com",
+      "http://localhost:8081",
+      "http://localhost:5000"
+    ],
+    "responseHeader": ["*"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]

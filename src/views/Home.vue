@@ -18,7 +18,7 @@
         v-text="headings[1]"
       ></v-card-title>
       <div class="py-4"></div>
-      <Portfolios></Portfolios>
+      <Portfolio></Portfolio>
     </v-card>
 
     <div class="py-16"></div>
@@ -36,12 +36,12 @@
 
 <script>
 import About from '@/components/About.vue';
-import Portfolios from '@/components/Portfolios.vue';
+import Portfolio from '@/components/Portfolio.vue';
 import ContactForm from '@/components/ContactForm.vue';
 
 export default {
   name: 'Home',
-  components: { About, Portfolios, ContactForm },
+  components: { About, Portfolio, ContactForm },
   data() {
     return {
       headings: ['About', 'Portfolio', 'Contact'],

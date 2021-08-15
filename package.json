@@ -4,16 +4,20 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "local": "vue-cli-service serve --mode local",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vue/composition-api": "^1.1.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "firebase": "^8.9.1",
     "vee-validate": "^3.4.11",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-slick-carousel": "^1.0.6",
+    "vuefire": "^3.0.0-alpha.2",
     "vuetify": "^2.4.0"
   },
   "devDependencies": {

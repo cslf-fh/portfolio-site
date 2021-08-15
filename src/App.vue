@@ -76,6 +76,10 @@
     <Carousel></Carousel>
 
     <v-main>
+      <v-tabs>
+        <v-tab to="/">home</v-tab>
+        <v-tab to="/about">about</v-tab>
+      </v-tabs>
       <router-view />
     </v-main>
 
@@ -170,6 +174,9 @@ export default {
   watch: {
     $route(routeInstance) {
       this.createTitleDesc(routeInstance);
+      setTimeout(() => {
+        this.offsets();
+      }, 100);
     },
     theme: {
       handler(value) {
@@ -202,10 +209,12 @@ export default {
     },
     //スクロール対象のページ上端からの距離を取得
     offsets() {
-      for (const i of this.links) {
-        const id = i.name;
-        const element = document.getElementById(id);
-        i.offsetY = element.getBoundingClientRect().top + window.pageYOffset; //dataの配列に格納(ウィンドウ上端からの距離 + スクロール量)
+      if (this.$route.path === '/') {
+        for (const i of this.links) {
+          const id = i.name;
+          const element = document.getElementById(id);
+          i.offsetY = element.getBoundingClientRect().top + window.pageYOffset; //dataの配列に格納(ウィンドウ上端からの距離 + スクロール量)
+        }
       }
     },
     //受け取った高さへのスクロール
@@ -222,7 +231,9 @@ export default {
       for (const i of this.links) {
         height.push(i.offsetY - this.sectionMargin);
       }
-      height[0] <= offset && offset < height[1]
+      this.$route.path !== '/'
+        ? (this.section = 0)
+        : height[0] <= offset && offset < height[1]
         ? (this.section = 1)
         : height[1] <= offset && offset < height[2]
         ? (this.section = 2)

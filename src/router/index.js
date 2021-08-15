@@ -26,7 +26,7 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home,
       meta: {
         title: `cslf-fh's web`,

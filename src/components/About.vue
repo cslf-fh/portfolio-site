@@ -2,7 +2,7 @@
   <v-row class="centered" no-gutters>
     <v-col cols="12" sm="5" align-self="center">
       <v-avatar size="200">
-        <v-img src="https://cdn.vuetifyjs.com/images/john.jpg"></v-img>
+        <v-img :src="about.image"></v-img>
       </v-avatar>
     </v-col>
     <v-col class="py-4 d-sm-none" cols="12"></v-col>
@@ -14,12 +14,12 @@
       >
         <v-card-text
           class="white-space text--primary text-subtitle-1 px-0"
-          v-text="texts.text"
+          v-text="about.text"
         ></v-card-text>
         <v-divider></v-divider>
         <v-card-text
           class="white-space text-subtitle-1 px-0"
-          v-text="texts.language"
+          v-text="about.language"
         ></v-card-text>
       </v-card>
     </v-col>
@@ -27,17 +27,37 @@
 </template>
 
 <script>
+import { storage } from '../plugins/storage';
+import api from '../assets/api.json';
+
 export default {
   data() {
     return {
-      texts: {
-        text: `aaaaaaaaa
-      bbbbbbbb
-      ccccccccccccccccccccccccccccc
-      dddddddd`,
-        language: `HTML / CSS(SCSS) / JavaScript / Vue.js(Vuetify) / PHP / MySQL / WordPress`,
-      },
+      about: [],
     };
+  },
+  created() {
+    if (process.env.VUE_APP_MODE === 'production') {
+      this.getStorage();
+    } else {
+      this.about = api.about;
+    }
+    console.log(process.env.VUE_APP_MODE);
+  },
+  methods: {
+    getStorage() {
+      this.portfolios = [];
+      const json = storage.ref('assets/api.json');
+      json
+        .getDownloadURL()
+        .then((url) => {
+          return this.$axios.get(url);
+        })
+        .then((response) => {
+          const data = response.data.about;
+          this.about = data;
+        });
+    },
   },
 };
 </script>

@@ -1,12 +1,12 @@
 <template>
   <v-row no-gutters>
-    <v-col v-for="i in portfolios" :key="i.id" class="pa-4" cols="12" sm="4">
+    <v-col v-for="i in portfolio" :key="i.id" class="pa-4" cols="12" sm="4">
       <v-hover v-slot="{ hover }">
         <v-card :elevation="hover ? 12 : 4">
           <v-img
             class="align-center"
-            :src="i.img"
-            :lazy-src="i.img"
+            :src="i.image"
+            :lazy-src="i.image"
             height="200"
             gradient="to top right, rgba(255,255,255,.33), rgba(255,255,255,.7)"
           >
@@ -43,8 +43,8 @@
               <v-card flat color="background">
                 <v-img
                   class="align-end"
-                  :src="i.img"
-                  :lazy-src="i.img"
+                  :src="i.image"
+                  :lazy-src="i.image"
                   max-height="300px"
                 >
                   <v-card-title
@@ -87,59 +87,49 @@
 </template>
 
 <script>
+import { storage } from '../plugins/storage';
+import api from '../assets/api.json';
+
 export default {
-  name: 'Portfolios',
+  name: 'Portfolio',
   data() {
     return {
-      portfolios: [
-        {
-          id: 1,
-          img: 'https://picsum.photos/id/0/300',
-          link: 'https://sample-6e139.web.app/',
-          title: 'WordPress構築サイトを静的サイト化',
-          description: `WordPressで構築したサイトを静的サイト化し、Firebaseでホスティングしたものです。
-            基となったサイトはテーマから自作しています。`,
-          language: 'HTML / CSS / PHP / WordPress / JapaScript(Vue.js)',
-          dialog: false,
-        },
-        {
-          id: 2,
-          img: 'https://picsum.photos/id/1/300',
-          link: '',
-          title: 'b',
-          description: 'description',
-          language: '',
-          dialog: false,
-        },
-        {
-          id: 3,
-          img: 'https://picsum.photos/id/2/300',
-          link: '',
-          title: 'c',
-          description: 'description',
-          language: '',
-          dialog: false,
-        },
-        {
-          id: 4,
-          img: 'https://picsum.photos/id/3/300',
-          link: '',
-          title: 'd',
-          description: 'description',
-          language: '',
-          dialog: false,
-        },
-        {
-          id: 5,
-          img: 'https://picsum.photos/id/4/300',
-          link: '',
-          title: 'e',
-          description: 'description',
-          language: '',
-          dialog: false,
-        },
-      ],
+      portfolio: [],
     };
+  },
+  created() {
+    if (process.env.VUE_APP_MODE === 'production') {
+      this.getStorage();
+    } else {
+      const portfolio = api.portfolio;
+      this.portfolio = portfolio.map((object) => {
+        return object;
+      });
+      this.portfolio.reverse();
+    }
+  },
+  methods: {
+    getStorage() {
+      this.portfolio = [];
+      const json = storage.ref('assets/api.json');
+      json
+        .getDownloadURL()
+        .then((url) => {
+          return this.$axios.get(url);
+        })
+        .then((response) => {
+          const data = response.data.portfolio;
+          const sort = 'id';
+          data.sort((a, b) => {
+            if (a[sort] > b[sort]) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
+          this.portfolio = data.reverse();
+        });
+    },
   },
 };
 </script>
