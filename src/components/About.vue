@@ -42,7 +42,6 @@ export default {
     } else {
       this.about = api.about;
     }
-    console.log(process.env.VUE_APP_MODE);
   },
   methods: {
     getStorage() {

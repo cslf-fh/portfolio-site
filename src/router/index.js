@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
+import Storage from '../views/Storage.vue';
 import goTo from 'vuetify/lib/services/goto';
 
 Vue.use(VueRouter);
@@ -35,9 +36,15 @@ export default new VueRouter({
     },
     {
       path: '/about',
-      name: 'about',
+      name: 'About',
       component: About,
-      meta: { title: `about | cslf-fh's web`, desc: 'about' },
+      meta: { title: `About | cslf-fh's web`, desc: 'About' },
+    },
+    {
+      path: '/storage',
+      name: 'Storage',
+      component: Storage,
+      meta: { title: `Storage | cslf-fh's web`, desc: 'Storage' },
     },
   ],
 });

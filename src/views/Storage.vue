@@ -1,24 +1,14 @@
 <template>
-  <div>
-    <div v-for="i in apis" :key="i.id" style="white-space: pre-line">
-      <p>{{ i.id }}</p>
-      <p>{{ i.title }}</p>
-      <p>{{ i.description }}</p>
-      <p>{{ i.language }}</p>
-      <p>{{ i.image }}</p>
-      <p>{{ i.link }}</p>
-      <p>{{ i.dialog }}</p>
+  <v-container>
+    <v-progress-linear v-model="fileLoading" stream></v-progress-linear>
+    <v-file-input v-model="inputFile" accept=".json"></v-file-input>
+    <v-btn :disabled="!inputFile" @click="upload(inputFile)"> submit </v-btn>
+    <div v-for="i in getFile" :key="i.userId" style="white-space: pre-line">
+      <p>id : {{ i.userId }}</p>
+      <p>name : {{ i.name }}</p>
+      <p>age : {{ i.age }}</p>
     </div>
-    <div v-for="i in storage" :key="i.title" style="white-space: pre-line">
-      <p>{{ i.id }}</p>
-      <p>{{ i.title }}</p>
-      <p>{{ i.description }}</p>
-      <p>{{ i.language }}</p>
-      <p>{{ i.image }}</p>
-      <p>{{ i.link }}</p>
-      <p>{{ i.dialog }}</p>
-    </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -27,29 +17,57 @@ import { storage } from '../plugins/storage';
 export default {
   name: 'Storage',
   data: () => ({
-    apis: [],
-    storage: [],
+    getFile: [],
+    fileLoading: '',
+    inputFile: null,
   }),
-  created() {
-    this.getPublic();
-    this.getStorage();
+  async created() {
+    await this.getStorage();
   },
   methods: {
-    getPublic() {
-      this.$axios.get('./assets/api.json').then((response) => {
-        this.apis = response.data.portfolio;
-      });
+    upload(file) {
+      const storageRef = storage.ref(`assets/${file.name}`); //ファイルの参照
+      const uploadTask = storageRef.put(file); //ファイルのアップロード
+      //アップロード状況の監視
+      uploadTask.on(
+        'state_changed',
+        //送信中
+        (snapshot) => {
+          //転送率
+          const percentage =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          this.fileLoading = percentage;
+        },
+        //エラー
+        (error) => {
+          console.log(error);
+        },
+        //完了
+        () => {
+          uploadTask.snapshot.ref
+            .getDownloadURL()
+            .then((url) => {
+              this.fileLoading = 0; //v-progress-linerの停止
+              this.inputFile = null; //ファイル入力欄の初期化
+              return this.$axios.get(url);
+            })
+            .then((response) => {
+              const data = response.data;
+              this.getFile = data.users;
+            });
+        }
+      );
     },
     getStorage() {
-      const json = storage.ref('assets/api.json');
-      json
+      const file = storage.ref('assets/api.json');
+      file
         .getDownloadURL()
         .then((url) => {
           return this.$axios.get(url);
         })
         .then((response) => {
           const data = response.data;
-          this.storage = data.portfolio;
+          this.getFile = data.users;
         });
     },
   },
