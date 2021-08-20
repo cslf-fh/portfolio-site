@@ -1,7 +1,9 @@
 <template>
   <validation-observer ref="observer" v-slot="{ invalid }">
-    <form
+    <v-form
+      ref="form"
       :class="{ 'form-width': $vuetify.breakpoint.smAndUp }"
+      lazy-validation
       @submit.prevent="submit"
     >
       <validation-provider
@@ -10,7 +12,7 @@
         rules="required|max:10"
       >
         <v-text-field
-          v-model="name"
+          v-model="contactForm.name"
           :counter="10"
           :error-messages="errors"
           label="お名前"
@@ -29,7 +31,7 @@
         rules="required|email"
       >
         <v-text-field
-          v-model="email"
+          v-model="contactForm.email"
           :error-messages="errors"
           label="メールアドレス"
           required
@@ -43,7 +45,7 @@
       </validation-provider>
       <validation-provider v-slot="{ errors }" name="件名" rules="required">
         <v-text-field
-          v-model="title"
+          v-model="contactForm.title"
           :error-messages="errors"
           label="件名"
           required
@@ -61,7 +63,7 @@
         rules="max:250"
       >
         <v-textarea
-          v-model="message"
+          v-model="contactForm.content"
           :error-messages="errors"
           label="お問い合わせ内容"
           :counter="250"
@@ -79,6 +81,7 @@
         class="text-subtitle-1"
         type="submit"
         :disabled="invalid"
+        :loading="contactForm.loading"
         width="150"
         large
         light
@@ -86,11 +89,30 @@
       >
         送信
       </v-btn>
-    </form>
+    </v-form>
+    <v-snackbar
+      v-model="snackbar.show"
+      :color="snackbar.color"
+      :timeout="5000"
+      bottom
+      light
+      multi-line
+      vertical
+      style="white-space: pre-line"
+    >
+      {{ snackbar.message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar.show = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </validation-observer>
 </template>
 
 <script>
+import { functions } from '../plugins/firebase';
+
 import { required, email, max } from 'vee-validate/dist/rules';
 import {
   extend,
@@ -116,14 +138,49 @@ export default {
     ValidationObserver,
   },
   data: () => ({
-    name: null,
-    email: null,
-    title: null,
-    message: null,
+    contactForm: {
+      name: null,
+      email: null,
+      title: null,
+      content: null,
+      loading: false,
+    },
+    snackbar: {
+      show: false,
+      color: '',
+      message: '',
+    },
   }),
   methods: {
     submit() {
-      this.$refs.observer.validate();
+      if (this.$refs.observer.validate()) {
+        this.contactForm.loading = true;
+        const mailer = functions.httpsCallable('sendMail');
+
+        mailer(this.contactForm)
+          .then(() => {
+            this.showSnackbar(
+              'success',
+              'お問い合わせありがとうございます。送信完了しました。'
+            );
+          })
+          .catch((error) => {
+            this.showSnackbar(
+              'error',
+              '送信に失敗しました。\n恐れ入りますが、時間をおいて再度お試しください。'
+            );
+            console.log(error);
+          })
+          .finally(() => {
+            this.contactForm.loading = false;
+            this.$refs.form.reset();
+          });
+      }
+    },
+    showSnackbar(color, message) {
+      this.snackbar.message = message;
+      this.snackbar.color = color;
+      this.snackbar.show = true;
     },
   },
 };

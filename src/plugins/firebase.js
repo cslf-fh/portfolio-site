@@ -3,6 +3,7 @@ import { firestorePlugin } from 'vuefire';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/storage';
+import 'firebase/functions';
 
 Vue.use(firestorePlugin);
 
@@ -16,5 +17,6 @@ const firebaseApp = firebase.initializeApp({
 });
 
 export const db = firebaseApp.firestore();
+export const functions = firebaseApp.functions('asia-northeast1');
 
 export default firebase;
