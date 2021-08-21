@@ -1,6 +1,7 @@
 <template>
   <validation-observer ref="observer" v-slot="{ invalid }">
     <v-form
+      v-inview:animate="'zoomIn'"
       ref="form"
       :class="{ 'form-width': $vuetify.breakpoint.smAndUp }"
       lazy-validation
@@ -191,5 +192,9 @@ export default {
   padding: 0 10ch;
   max-width: 780px;
   margin: auto;
+}
+
+div[class*='inview'] {
+  visibility: hidden;
 }
 </style>

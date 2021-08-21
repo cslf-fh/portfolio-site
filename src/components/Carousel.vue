@@ -1,6 +1,6 @@
 <template>
   <div class="black--text carousel">
-    <span class="text-h1 carousel__title">CSLF-<br />FH</span>
+    <Logo class="carousel__logo"></Logo>
     <span class="carousel__scroll">SCROLL</span>
     <VueSlickCarousel v-bind="settings">
       <v-img
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import Logo from '../assets/logo.svg';
+
 import VueSlickCarousel from 'vue-slick-carousel';
 import 'vue-slick-carousel/dist/vue-slick-carousel.css';
 // optional style for arrows & dots
@@ -24,7 +26,7 @@ import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css';
 
 export default {
   name: 'MyComponent',
-  components: { VueSlickCarousel },
+  components: { VueSlickCarousel, Logo },
   data() {
     return {
       settings: {
@@ -38,6 +40,52 @@ export default {
       url: 'https://picsum.photos/id/',
       size: '/1920',
     };
+  },
+  mounted() {
+    window.addEventListener('load', this.logo);
+  },
+  methods: {
+    logo() {
+      this.$anime
+        .timeline({
+          targets: '#logo path',
+          easing: 'easeInOutSine',
+          direction: 'normal',
+        })
+        .add({
+          strokeDashoffset: [this.$anime.setDashoffset, 0],
+          duration: 1000,
+          delay: function (el, i) {
+            return i * 250;
+          },
+        })
+        .add({
+          fill: ['transparent', '#000'],
+        });
+      this.logoRepeat();
+    },
+    logoRepeat() {
+      setInterval(
+        function () {
+          this.$anime
+            .timeline({
+              targets: '#logo path',
+              easing: 'easeInOutSine',
+              direction: 'alternate',
+            })
+            .add({ fill: ['#000', 'rgba(0, 0, 0, .0)'] })
+            .add({
+              strokeDashoffset: [0, this.$anime.setDashoffset],
+              duration: 1000,
+              delay: function (el, i) {
+                return i * 250;
+              },
+              endDelay: 500,
+            });
+        }.bind(this),
+        18000
+      );
+    },
   },
 };
 </script>
@@ -60,11 +108,10 @@ export default {
 
 .carousel {
   position: relative;
-  &__title {
+  &__logo {
     position: absolute;
     top: 15%;
     left: 10%;
-    white-space: pre;
     z-index: 1;
   }
   &__scroll {

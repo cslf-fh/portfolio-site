@@ -30,28 +30,13 @@
         </v-tab>
       </v-tabs>
       <v-btn
-        v-if="$vuetify.theme.dark"
         class="mr-n2"
         absolute
         top
         right
         icon
         style="margin-top: -14px"
-        @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-      >
-        <v-icon>mdi-invert-colors</v-icon>
-      </v-btn>
-      <v-btn
-        v-else
-        class="mr-n2"
-        absolute
-        top
-        right
-        icon
-        :style="{
-          'margin-top': '-14px',
-          transform: 'scale(-1, 1)',
-        }"
+        :class="{ rotate: $vuetify.theme.dark }"
         @click="$vuetify.theme.dark = !$vuetify.theme.dark"
       >
         <v-icon>mdi-invert-colors</v-icon>
@@ -80,6 +65,7 @@
         <v-tab to="/">home</v-tab>
         <v-tab to="/about">about</v-tab>
         <v-tab to="/storage">storage</v-tab>
+        <v-tab to="/anime">anime</v-tab>
       </v-tabs>
       <router-view />
     </v-main>
@@ -265,5 +251,9 @@ body {
     transform: skewY(-3deg);
     z-index: 0;
   }
+}
+
+.rotate {
+  transform: scale(-1, 1);
 }
 </style>

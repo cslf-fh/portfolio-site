@@ -1957,6 +1957,11 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.nlark.com/alphanum-sort/download/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
+animejs@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.nlark.com/animejs/download/animejs-3.2.1.tgz#de9fe2e792f44a777a7fdf6ae160e26604b0cdda"
+  integrity sha1-3p/i55L0Snd6f99q4WDiZgSwzdo=
+
 ansi-colors@^3.0.0:
   version "3.2.4"
   resolved "https://registry.npm.taobao.org/ansi-colors/download/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
@@ -4949,6 +4954,13 @@ imurmurhash@^0.1.4:
   resolved "https://registry.npm.taobao.org/imurmurhash/download/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
 
+in-view@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.npm.taobao.org/in-view/download/in-view-0.6.1.tgz#f9f99b5d5a6fe01359d9e19c570302a3121baf42"
+  integrity sha1-+fmbXVpv4BNZ2eGcVwMCoxIbr0I=
+  dependencies:
+    lodash "^4.15.0"
+
 indexes-of@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/indexes-of/download/indexes-of-1.0.1.tgz#f30f716c8e2bd346c7b67d3df3915566a7c05607"
@@ -5672,7 +5684,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.npm.taobao.org/lodash.uniq/download/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.3:
+lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.3:
   version "4.17.21"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.21.tgz?cache=0&sync_timestamp=1613835891789&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash%2Fdownload%2Flodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=
@@ -6015,6 +6027,11 @@ nan@^2.12.1:
   version "2.14.2"
   resolved "https://registry.npm.taobao.org/nan/download/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha1-9TdkAGlRaPTMaUrJOT0MlYXu6hk=
+
+nanoid@^2.1.0:
+  version "2.1.11"
+  resolved "https://registry.nlark.com/nanoid/download/nanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
+  integrity sha1-7CS4p1jVkVYVMbQXagHjq08PAoA=
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -7763,6 +7780,13 @@ shelljs@^0.8.3:
     interpret "^1.0.0"
     rechoir "^0.6.2"
 
+shortid@^2.2.6:
+  version "2.2.16"
+  resolved "https://registry.npm.taobao.org/shortid/download/shortid-2.2.16.tgz#b742b8f0cb96406fd391c76bfc18a67a57fe5608"
+  integrity sha1-t0K48MuWQG/Tkcdr/Bimelf+Vgg=
+  dependencies:
+    nanoid "^2.1.0"
+
 side-channel@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npm.taobao.org/side-channel/download/side-channel-1.0.4.tgz#efce5c8fdc104ee751b25c58d4290011fa5ea2cf"
@@ -8199,7 +8223,14 @@ svg-tags@^1.0.0:
   resolved "https://registry.npm.taobao.org/svg-tags/download/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
   integrity sha1-WPcc7jvVGbWdSyqEO2x95krAR2Q=
 
-svgo@^1.0.0:
+svg-to-vue@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.npm.taobao.org/svg-to-vue/download/svg-to-vue-0.7.0.tgz#ec86deb1742be38319462e36703af1dfa2f9fad9"
+  integrity sha1-7IbesXQr44MZRi42cDrx36L5+tk=
+  dependencies:
+    svgo "^1.3.2"
+
+svgo@^1.0.0, svgo@^1.3.2:
   version "1.3.2"
   resolved "https://registry.nlark.com/svgo/download/svgo-1.3.2.tgz#b6dc511c063346c9e415b81e43401145b96d4167"
   integrity sha1-ttxRHAYzRsnkFbgeQ0ARRbltQWc=
@@ -8777,6 +8808,14 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
+vue-svg-loader@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.npm.taobao.org/vue-svg-loader/download/vue-svg-loader-0.16.0.tgz#adccbdc9aca90132bde9c9d96cd49f74efecd345"
+  integrity sha1-rcy9yaypATK96cnZbNSfdO/s00U=
+  dependencies:
+    loader-utils "^1.2.3"
+    svg-to-vue "^0.7.0"
+
 vue-template-compiler@^2.6.11:
   version "2.6.14"
   resolved "https://registry.nlark.com/vue-template-compiler/download/vue-template-compiler-2.6.14.tgz#a2f0e7d985670d42c9c9ee0d044fed7690f4f763"
@@ -8801,6 +8840,14 @@ vuefire@^3.0.0-alpha.2:
   integrity sha512-f16MxIEuvAuu3NTwvCtOGpJ5E/6KGt+sg5BiuedOJKeXVqbPLdZqpXhT3quncYw1ewoKDTfZxVN908aIU6ba8Q==
   dependencies:
     vue-demi "^0.4.5"
+
+vueinview@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.npm.taobao.org/vueinview/download/vueinview-1.0.7.tgz#b21cd118dfb94f17cb57a5791e4cef6e1fca84bb"
+  integrity sha1-shzRGN+5TxfLV6V5Hkzvbh/KhLs=
+  dependencies:
+    in-view "^0.6.1"
+    shortid "^2.2.6"
 
 vuetify-loader@^1.7.0:
   version "1.7.2"

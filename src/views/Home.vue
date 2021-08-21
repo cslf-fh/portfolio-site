@@ -2,7 +2,8 @@
   <v-container class="text-center">
     <v-card id="about" ref="about" flat color="transparent">
       <v-card-title
-        class="d-inline-flex text-h4 heading"
+        v-inview:animate="'fadeInUp'"
+        class="d-inline-flex text-h4"
         v-text="headings[0]"
       ></v-card-title>
       <div class="py-4"></div>
@@ -14,7 +15,8 @@
     <v-card id="portfolio" ref="portfolio" flat color="transparent">
       <div class="skew"></div>
       <v-card-title
-        class="d-inline-flex text-h4 black--text heading heading--ex"
+        v-inview:animate="'fadeInUp'"
+        class="d-inline-flex text-h4 black--text animated--ex"
         v-text="headings[1]"
       ></v-card-title>
       <div class="py-4"></div>
@@ -25,7 +27,8 @@
 
     <v-card id="contact" ref="contact" flat color="transparent">
       <v-card-title
-        class="d-inline-flex text-h4 heading"
+        v-inview:animate="'fadeInUp'"
+        class="d-inline-flex text-h4"
         v-text="headings[2]"
       ></v-card-title>
       <div class="py-4"></div>
@@ -51,8 +54,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.heading {
+.animated {
   position: relative;
+  visibility: visible !important;
   &::after {
     content: '';
     position: absolute;
@@ -65,7 +69,7 @@ export default {
       rgba(245, 223, 77, 1),
       rgba(255, 152, 0, 1)
     );
-    animation: bar 1s cubic-bezier(0.9, 0, 0.1, 1);
+    animation: bar 2s cubic-bezier(0.9, 0, 0.1, 1);
   }
   &--ex {
     &::after {
@@ -75,7 +79,8 @@ export default {
 }
 
 @keyframes bar {
-  0% {
+  0%,
+  50% {
     left: 50%;
     width: 0%;
   }
@@ -83,6 +88,10 @@ export default {
     left: -50%;
     width: 200%;
   }
+}
+
+div[class*='inview'] {
+  visibility: hidden;
 }
 
 .skew {

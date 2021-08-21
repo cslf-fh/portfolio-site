@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import Storage from '../views/Storage.vue';
+import Anime from '../views/Anime.vue';
 import goTo from 'vuetify/lib/services/goto';
 
 Vue.use(VueRouter);
@@ -45,6 +46,12 @@ export default new VueRouter({
       name: 'Storage',
       component: Storage,
       meta: { title: `Storage | cslf-fh's web`, desc: 'Storage' },
+    },
+    {
+      path: '/anime',
+      name: 'Anime',
+      component: Anime,
+      meta: { title: `Anime | cslf-fh's web`, desc: 'Anime' },
     },
   ],
 });

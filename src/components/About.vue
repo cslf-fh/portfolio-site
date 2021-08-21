@@ -1,6 +1,11 @@
 <template>
   <v-row class="centered" no-gutters>
-    <v-col cols="12" sm="5" align-self="center">
+    <v-col
+      v-inview:animate="'fadeInRight'"
+      cols="12"
+      sm="5"
+      align-self="center"
+    >
       <v-avatar size="200">
         <v-img :src="about.image"></v-img>
       </v-avatar>
@@ -13,11 +18,13 @@
         color="transparent"
       >
         <v-card-text
+          v-inview:animate="'fadeInRight'"
           class="white-space text--primary text-subtitle-1 px-0"
           v-text="about.text"
         ></v-card-text>
         <v-divider></v-divider>
         <v-card-text
+          v-inview:animate="'fadeInRight'"
           class="white-space text-subtitle-1 px-0"
           v-text="about.language"
         ></v-card-text>
@@ -69,5 +76,9 @@ export default {
 
 .centered {
   padding: 0 5ch;
+}
+
+div[class*='inview'] {
+  opacity: 0;
 }
 </style>

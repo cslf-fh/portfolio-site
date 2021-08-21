@@ -1,6 +1,13 @@
 <template>
   <v-row no-gutters>
-    <v-col v-for="i in portfolio" :key="i.id" class="pa-4" cols="12" sm="4">
+    <v-col
+      v-inview:animate="'fadeInRight'"
+      v-for="i in portfolio"
+      :key="i.id"
+      class="pa-4"
+      cols="12"
+      sm="4"
+    >
       <v-hover v-slot="{ hover }">
         <v-card :elevation="hover ? 12 : 4">
           <v-img
@@ -152,5 +159,9 @@ export default {
 .white-space {
   white-space: pre-line;
   word-break: break-word;
+}
+
+div[class*='inview'] {
+  opacity: 0;
 }
 </style>
