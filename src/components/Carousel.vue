@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Logo from '../assets/logo.svg';
+import Logo from '../assets/logo.svg'; //svgファイルの読み込み
 
 import VueSlickCarousel from 'vue-slick-carousel';
 import 'vue-slick-carousel/dist/vue-slick-carousel.css';
@@ -29,6 +29,7 @@ export default {
   components: { VueSlickCarousel, Logo },
   data() {
     return {
+      //カルーセルの設定
       settings: {
         arrow: false,
         fade: true,
@@ -45,12 +46,16 @@ export default {
     window.addEventListener('load', this.logo);
   },
   methods: {
+    //ロゴのアニメーション
     logo() {
       this.$anime
         .timeline({
           targets: '#logo path',
           easing: 'easeInOutSine',
           direction: 'normal',
+        })
+        .add({
+          duration: 3000, //ローディング画面表示時間
         })
         .add({
           strokeDashoffset: [this.$anime.setDashoffset, 0],
@@ -64,6 +69,7 @@ export default {
         });
       this.logoRepeat();
     },
+    //ロゴのアニメーションの繰り返し表示
     logoRepeat() {
       setInterval(
         function () {

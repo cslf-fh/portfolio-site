@@ -5,6 +5,7 @@
       overflow: 'hidden',
     }"
   >
+    <Loading :loading="loading"></Loading>
     <v-app-bar app dark height="56">
       <router-link to="./">
         <v-btn
@@ -119,6 +120,7 @@ const themeStorage = {
 import ScrollTop from '@/components/ScrollTop.vue';
 import Carousel from '@/components/Carousel.vue';
 import Shares from '@/components/Shares.vue';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'App',
@@ -126,6 +128,7 @@ export default {
     ScrollTop,
     Carousel,
     Shares,
+    Loading,
   },
   data() {
     return {
@@ -141,6 +144,7 @@ export default {
         },
         { name: 'contact', offsetY: '', icon: 'mdi-email' },
       ],
+      loading: true, //Loading.vueに渡す値
     };
   },
   created() {
@@ -152,19 +156,26 @@ export default {
     this.offsets();
     window.addEventListener('resize', this.offsets);
     window.addEventListener('scroll', this.scrollIn);
+    //ローディング画面を非表示に
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
   },
   computed: {
+    //テーマの切り替え
     theme() {
       return this.$vuetify.theme.dark ? 'dark' : 'light';
     },
   },
   watch: {
+    //ページ遷移時
     $route(routeInstance) {
       this.createTitleDesc(routeInstance);
       setTimeout(() => {
         this.offsets();
       }, 100);
     },
+    //テーマの設定の保存
     theme: {
       handler(value) {
         value === 'dark' ? (value = true) : (value = false);
@@ -174,6 +185,7 @@ export default {
     },
   },
   methods: {
+    //メタデータ設定
     createTitleDesc(routeInstance) {
       // title設定
       if (routeInstance.meta.title) {
