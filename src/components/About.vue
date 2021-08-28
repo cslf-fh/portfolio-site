@@ -1,12 +1,7 @@
 <template>
   <v-row class="centered" no-gutters>
-    <v-col
-      v-inview:animate="'fadeInRight'"
-      cols="12"
-      sm="5"
-      align-self="center"
-    >
-      <v-avatar size="200">
+    <v-col cols="12" sm="5" align-self="center">
+      <v-avatar class="avatar" size="200">
         <v-img :src="about.image"></v-img>
       </v-avatar>
     </v-col>
@@ -18,16 +13,22 @@
         color="transparent"
       >
         <v-card-text
-          v-inview:animate="'fadeInRight'"
-          class="white-space text--primary text-subtitle-1 px-0"
-          v-text="about.text"
+          class="
+            ityped-text
+            d-inline
+            white-space
+            text--primary text-subtitle-1
+            px-0
+          "
         ></v-card-text>
+        <span class="ityped-cursor text-h6">|</span>
+        <div class="py-2"></div>
         <v-divider></v-divider>
+        <div class="py-2"></div>
         <v-card-text
-          v-inview:animate="'fadeInRight'"
-          class="white-space text-subtitle-1 px-0"
-          v-text="about.language"
+          class="ityped-language d-inline white-space text-subtitle-1 px-0"
         ></v-card-text>
+        <span class="ityped-cursor text-h6 gray--text">|</span>
       </v-card>
     </v-col>
   </v-row>
@@ -36,6 +37,12 @@
 <script>
 import { storage } from '../plugins/storage';
 import api from '../assets/api.json';
+
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
+import { init } from 'ityped'; //タイピングアニメーションのプラグイン
 
 export default {
   data() {
@@ -50,9 +57,15 @@ export default {
       this.about = api.about;
     }
   },
+  mounted() {
+    this.avatar();
+    this.about.text.push(this.about.text.join('\n')); //タイピングアニメーションで最後に全部表示するために、結合し追加
+    this.textTyped('.ityped-text', this.about.text, 'top');
+    this.textTyped('.ityped-language', this.about.language, 'bottom');
+  },
   methods: {
     getStorage() {
-      this.portfolios = [];
+      this.about = [];
       const json = storage.ref('assets/api.json');
       json
         .getDownloadURL()
@@ -64,21 +77,67 @@ export default {
           this.about = data;
         });
     },
+    //アバタのアニメーション
+    avatar() {
+      gsap.fromTo(
+        '.avatar',
+        { autoAlpha: 0, x: -100 },
+        {
+          autoAlpha: 1,
+          x: 0,
+          ease: 'power2.out',
+          duration: 1,
+          scrollTrigger: {
+            trigger: '.avatar',
+            start: 'center center',
+            //markers: true,
+          },
+        }
+      );
+    },
+    //テキストのタイピングアニメーション
+    textTyped(trigger, text, start) {
+      //タイピングアニメーションの設定
+      function initType() {
+        const target = document.querySelector(trigger);
+        init(target, {
+          strings: text, //配列で渡す
+          disableBackTyping: true, //繰り返しをしない
+          showCursor: false, //デフォルトのカーサを非表示(ScrollTriggerイベント発火前は非表示のため)
+        });
+      }
+      //イベント発火タイミングの設定
+      ScrollTrigger.create({
+        trigger: trigger,
+        start: `${start} center`,
+        onEnter: initType,
+        once: true,
+        //markers: true,
+      });
+      this.textCursor();
+    },
+    //カーサのアニメーション
+    textCursor() {
+      const tl = gsap.timeline({
+        repeat: -1,
+      });
+      tl.to('.ityped-cursor', {
+        visibility: 'hidden',
+      }).to('.ityped-cursor', {
+        visibility: 'visible',
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.white-space {
-  white-space: pre-line;
-  word-break: break-word;
-}
-
 .centered {
   padding: 0 5ch;
 }
 
-div[class*='inview'] {
-  opacity: 0;
+.white-space {
+  white-space: pre-line;
+  word-break: break-word;
 }
 </style>

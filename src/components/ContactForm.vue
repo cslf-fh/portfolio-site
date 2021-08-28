@@ -1,9 +1,8 @@
 <template>
   <validation-observer ref="observer" v-slot="{ invalid }">
     <v-form
-      v-inview:animate="'zoomIn'"
       ref="form"
-      :class="{ 'form-width': $vuetify.breakpoint.smAndUp }"
+      :class="['contact-form', { 'form-width': $vuetify.breakpoint.smAndUp }]"
       lazy-validation
       @submit.prevent="submit"
     >
@@ -133,6 +132,11 @@ extend('email', {
   ...email,
   message: '有効なメールアドレスではありません',
 });
+
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
 export default {
   components: {
     ValidationProvider,
@@ -152,6 +156,9 @@ export default {
       message: '',
     },
   }),
+  mounted() {
+    this.contactFormAnimation();
+  },
   methods: {
     submit() {
       if (this.$refs.observer.validate()) {
@@ -183,6 +190,24 @@ export default {
       this.snackbar.color = color;
       this.snackbar.show = true;
     },
+    //コンタクトフォームのアニメーション
+    contactFormAnimation() {
+      const target = '.contact-form';
+      gsap.fromTo(
+        target,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          duration: 0.8,
+          ease: 'circ.inOut',
+          scrollTrigger: {
+            trigger: target,
+            start: 'top 40%',
+            //markers: true,
+          },
+        }
+      );
+    },
   },
 };
 </script>
@@ -194,7 +219,11 @@ export default {
   margin: auto;
 }
 
-div[class*='inview'] {
+form[class*='inview'] {
   visibility: hidden;
+}
+
+.animated {
+  visibility: visible !important;
 }
 </style>

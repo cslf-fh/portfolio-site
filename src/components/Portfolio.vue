@@ -1,15 +1,8 @@
 <template>
   <v-row no-gutters>
-    <v-col
-      v-inview:animate="'fadeInRight'"
-      v-for="i in portfolio"
-      :key="i.id"
-      class="pa-4"
-      cols="12"
-      sm="4"
-    >
+    <v-col v-for="i in portfolio" :key="i.id" class="pa-4" cols="12" sm="4">
       <v-hover v-slot="{ hover }">
-        <v-card :elevation="hover ? 12 : 4">
+        <v-card :class="[`portfolio${i.id}`]" :elevation="hover ? 12 : 4">
           <v-img
             class="align-center"
             :src="i.image"
@@ -97,6 +90,10 @@
 import { storage } from '../plugins/storage';
 import api from '../assets/api.json';
 
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
 export default {
   name: 'Portfolio',
   data() {
@@ -114,6 +111,9 @@ export default {
       });
       this.portfolio.reverse();
     }
+  },
+  mounted() {
+    this.animationConfig();
   },
   methods: {
     getStorage() {
@@ -137,6 +137,44 @@ export default {
           this.portfolio = data.reverse();
         });
     },
+    //スライドのアニメーション
+    slides(target, transrateX, delay) {
+      gsap.fromTo(
+        target,
+        { autoAlpha: 0, x: transrateX },
+        {
+          autoAlpha: 1,
+          x: 0,
+          ease: 'power2.out',
+          duration: 1,
+          delay: delay,
+          scrollTrigger: {
+            trigger: target,
+            start: 'center center',
+            //markers: true,
+          },
+        }
+      );
+    },
+    //スライドのアニメーションの設定
+    animationConfig() {
+      const length = this.portfolio.length;
+      const mod = length % 3;
+      let adjust = null;
+      mod === 0 ? (adjust = -1) : mod === 1 ? (adjust = 1) : (adjust = 0); //3列カラムで表示するために、配列の長さの余りからいい感じの値を設定
+      for (const i of this.portfolio) {
+        const id = i.id;
+        const target = `.portfolio${id}`;
+        const delay = (length - id) % 3; //3列カラムで常に左側からアニメーションするように
+        this.$vuetify.breakpoint.smAndUp
+          ? Math.floor((id + adjust) / 3) % 2 === 1
+            ? this.slides(target, 100, delay * 0.25)
+            : this.slides(target, -100, delay * 0.25)
+          : id % 2 === 1
+          ? this.slides(target, 100, 0)
+          : this.slides(target, -100, 0);
+      }
+    },
   },
 };
 </script>
@@ -159,9 +197,5 @@ export default {
 .white-space {
   white-space: pre-line;
   word-break: break-word;
-}
-
-div[class*='inview'] {
-  opacity: 0;
 }
 </style>

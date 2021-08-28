@@ -107,11 +107,12 @@ export default {
   .overlay#{$i} {
     position: absolute;
     border-style: solid;
+    //25vw,(vh)ぴったりだと隙間ができるので少し大きめに設定
     @if $i % 2 == 1 {
-      border-width: 25.2vh 25.2vw 0 0;
+      border-width: 27vh 27vw 0 0;
       border-color: #000 transparent transparent transparent;
     } @else {
-      border-width: 0 0 25vh 25vw;
+      border-width: 0 0 27vh 26vw;
       border-color: transparent transparent #000 transparent;
     }
     @if $i / 24 > 1 {

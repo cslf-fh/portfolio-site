@@ -55,7 +55,7 @@ export default {
           direction: 'normal',
         })
         .add({
-          duration: 3000, //ローディング画面表示時間
+          duration: 3500, //ローディング画面表示時間
         })
         .add({
           strokeDashoffset: [this.$anime.setDashoffset, 0],

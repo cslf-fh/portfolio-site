@@ -2,9 +2,8 @@
   <v-container class="text-center">
     <v-card id="about" ref="about" flat color="transparent">
       <v-card-title
-        v-inview:animate="'fadeInUp'"
-        class="d-inline-flex text-h4"
-        v-text="headings[0]"
+        :class="['d-inline-flex', 'text-h4', headings[0].target]"
+        v-text="headings[0].heading"
       ></v-card-title>
       <div class="py-4"></div>
       <About></About>
@@ -13,11 +12,10 @@
     <div class="py-16"></div>
 
     <v-card id="portfolio" ref="portfolio" flat color="transparent">
-      <div class="skew"></div>
+      <div class="background-gradation"></div>
       <v-card-title
-        v-inview:animate="'fadeInUp'"
-        class="d-inline-flex text-h4 black--text animated--ex"
-        v-text="headings[1]"
+        :class="['d-inline-flex', 'text-h4', headings[1].target]"
+        v-text="headings[1].heading"
       ></v-card-title>
       <div class="py-4"></div>
       <Portfolio></Portfolio>
@@ -27,9 +25,8 @@
 
     <v-card id="contact" ref="contact" flat color="transparent">
       <v-card-title
-        v-inview:animate="'fadeInUp'"
-        class="d-inline-flex text-h4"
-        v-text="headings[2]"
+        :class="['d-inline-flex', 'text-h4', headings[2].target]"
+        v-text="headings[2].heading"
       ></v-card-title>
       <div class="py-4"></div>
       <ContactForm></ContactForm>
@@ -42,21 +39,62 @@ import About from '@/components/About.vue';
 import Portfolio from '@/components/Portfolio.vue';
 import ContactForm from '@/components/ContactForm.vue';
 
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
 export default {
   name: 'Home',
   components: { About, Portfolio, ContactForm },
   data() {
     return {
-      headings: ['About', 'Portfolio', 'Contact'],
+      headings: [
+        { heading: 'About', target: 'about', class: 'is-active' },
+        { heading: 'Portfolio', target: 'portfolio', class: 'is-active--ex' },
+        { heading: 'contact', target: 'contact', class: 'is-active' },
+      ],
     };
+  },
+  mounted() {
+    this.headingsAnimation();
+  },
+  methods: {
+    //ヘッディングのアニメーション
+    headingsAnimation() {
+      for (const i of this.headings) {
+        let target = i.target;
+        let addClass = i.class;
+        gsap.fromTo(
+          `.${target}`,
+          { autoAlpha: 0, y: 72 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            ease: 'power2.out',
+            duration: 1,
+            scrollTrigger: {
+              trigger: `.${target}`,
+              start: 'top center',
+              //markers: true,
+              //ScrollTriggerイベント発火時にクラスを付けて、擬似要素のアニメーション開始
+              toggleClass: {
+                targets: `.${target}`,
+                className: addClass,
+              },
+              once: true,
+            },
+          }
+        );
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.animated {
+.is-active,
+.is-active--ex {
   position: relative;
-  visibility: visible !important;
   &::after {
     content: '';
     position: absolute;
@@ -71,10 +109,11 @@ export default {
     );
     animation: bar 2s cubic-bezier(0.9, 0, 0.1, 1);
   }
-  &--ex {
-    &::after {
-      background: linear-gradient(to right, #2acea2, #2cb8db);
-    }
+}
+
+.is-active--ex {
+  &::after {
+    background: linear-gradient(to right, #2acea2, #2cb8db);
   }
 }
 
@@ -90,16 +129,12 @@ export default {
   }
 }
 
-div[class*='inview'] {
-  visibility: hidden;
-}
-
-.skew {
+.background-gradation {
   position: absolute;
-  top: -5%;
-  left: -50%;
-  height: 110%;
-  width: 200%;
+  top: -25px;
+  left: -50vw;
+  height: calc(100% + 50px);
+  width: 200vw;
   background: linear-gradient(180deg, #ffad00, #ff7400);
   transform: skewY(-3deg);
   z-index: 0;

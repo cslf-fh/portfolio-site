@@ -6,8 +6,14 @@
   ],
   "about": {
     "image": "https://cdn.vuetifyjs.com/images/john.jpg",
-    "text": "aaaaaaaaaaaaaaa\nbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\nccccccccc",
-    "language": "HTML / CSS(SCSS) / JavaScript / Vue.js(Vuetify) / PHP / MySQL / WordPress"
+    "text": [
+      "aaaaaaaaaaaaaaa",
+      "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "ああああああああああcyあ"
+    ],
+    "language": [
+      "HTML / CSS(SCSS) / JavaScript / Vue.js(Vuetify) / PHP / MySQL / WordPress"
+    ]
   },
   "portfolio": [
     {
@@ -30,6 +36,87 @@
     },
     {
       "id": 3,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 4,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 5,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 6,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 7,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 8,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 9,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 10,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 11,
+      "title": "title3",
+      "description": "desc3",
+      "language": "lang3",
+      "image": "img3",
+      "link": "link3",
+      "dialog": false
+    },
+    {
+      "id": 12,
       "title": "title3",
       "description": "desc3",
       "language": "lang3",
