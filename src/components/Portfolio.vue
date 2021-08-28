@@ -88,7 +88,6 @@
 
 <script>
 import { storage } from '../plugins/storage';
-import api from '../assets/api.json';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -101,25 +100,23 @@ export default {
       portfolio: [],
     };
   },
-  created() {
+  async mounted() {
     if (process.env.VUE_APP_MODE === 'production') {
       this.getStorage();
     } else {
-      const portfolio = api.portfolio;
-      this.portfolio = portfolio.map((object) => {
-        return object;
+      await import('../assets/api.json').then((object) => {
+        const data = object.portfolio;
+        this.portfolio = data;
+        this.portfolio.reverse();
       });
-      this.portfolio.reverse();
+      this.animationConfig();
     }
   },
-  mounted() {
-    this.animationConfig();
-  },
   methods: {
-    getStorage() {
+    async getStorage() {
       this.portfolio = [];
       const json = storage.ref('assets/api.json');
-      json
+      await json
         .getDownloadURL()
         .then((url) => {
           return this.$axios.get(url);
@@ -136,6 +133,7 @@ export default {
           });
           this.portfolio = data.reverse();
         });
+      this.animationConfig();
     },
     //スライドのアニメーション
     slides(target, transrateX, delay) {

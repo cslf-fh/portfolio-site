@@ -36,7 +36,6 @@
 
 <script>
 import { storage } from '../plugins/storage';
-import api from '../assets/api.json';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -54,14 +53,15 @@ export default {
     if (process.env.VUE_APP_MODE === 'production') {
       this.getStorage();
     } else {
-      this.about = api.about;
+      import('../assets/api.json').then((object) => {
+        const data = object.about;
+        this.about = data;
+        this.textSettings();
+      });
     }
   },
   mounted() {
     this.avatar();
-    this.about.text.push(this.about.text.join('\n')); //タイピングアニメーションで最後に全部表示するために、結合し追加
-    this.textTyped('.ityped-text', this.about.text, 'top');
-    this.textTyped('.ityped-language', this.about.language, 'bottom');
   },
   methods: {
     getStorage() {
@@ -75,6 +75,7 @@ export default {
         .then((response) => {
           const data = response.data.about;
           this.about = data;
+          this.textSettings();
         });
     },
     //アバタのアニメーション
@@ -126,6 +127,12 @@ export default {
       }).to('.ityped-cursor', {
         visibility: 'visible',
       });
+    },
+    //itypedに渡す関数
+    textSettings() {
+      this.about.text.push(this.about.text.join('\n')); //タイピングアニメーションで最後に全部表示するために、結合し追加
+      this.textTyped('.ityped-text', this.about.text, 'top');
+      this.textTyped('.ityped-language', this.about.language, 'bottom');
     },
   },
 };
