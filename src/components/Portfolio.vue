@@ -1,6 +1,12 @@
 <template>
   <v-row no-gutters>
-    <v-col v-for="i in portfolio" :key="i.id" class="pa-4" cols="12" sm="4">
+    <v-col
+      v-for="i in portfolioViews"
+      :key="i.id"
+      class="pa-4"
+      cols="12"
+      sm="4"
+    >
       <v-hover v-slot="{ hover }">
         <v-card :class="[`portfolio${i.id}`]" :elevation="hover ? 12 : 4">
           <v-img
@@ -83,6 +89,9 @@
         </v-card>
       </v-hover>
     </v-col>
+    <v-col v-if="viewItems < portfolio.length" class="pt-4" cols="12">
+      <v-btn light outlined tile @click="addViewsArray"> view more </v-btn>
+    </v-col>
   </v-row>
 </template>
 
@@ -98,6 +107,9 @@ export default {
   data() {
     return {
       portfolio: [],
+      portfolioViews: [],
+      viewItems: 3,
+      addedItems: 3,
     };
   },
   async mounted() {
@@ -108,8 +120,9 @@ export default {
         const data = object.portfolio;
         this.portfolio = data;
         this.portfolio.reverse();
+        this.makeViewsArray();
       });
-      this.animationConfig();
+      this.animationSlides();
     }
   },
   methods: {
@@ -132,8 +145,9 @@ export default {
             }
           });
           this.portfolio = data.reverse();
+          this.makeViewsArray();
         });
-      this.animationConfig();
+      this.animationSlides();
     },
     //スライドのアニメーション
     slides(target, transrateX, delay) {
@@ -151,26 +165,56 @@ export default {
             start: 'center center',
             //markers: true,
           },
+          //overwrite: true,
         }
       );
     },
     //スライドのアニメーションの設定
-    animationConfig() {
+    animationSettings(id) {
       const length = this.portfolio.length;
       const mod = length % 3;
       let adjust = null;
       mod === 0 ? (adjust = -1) : mod === 1 ? (adjust = 1) : (adjust = 0); //3列カラムで表示するために、配列の長さの余りからいい感じの値を設定
-      for (const i of this.portfolio) {
-        const id = i.id;
-        const target = `.portfolio${id}`;
-        const delay = (length - id) % 3; //3列カラムで常に左側からアニメーションするように
-        this.$vuetify.breakpoint.smAndUp
-          ? Math.floor((id + adjust) / 3) % 2 === 1
-            ? this.slides(target, 100, delay * 0.25)
-            : this.slides(target, -100, delay * 0.25)
-          : id % 2 === 1
-          ? this.slides(target, 100, 0)
-          : this.slides(target, -100, 0);
+      const target = `.portfolio${id}`;
+      const delay = (length - id) % 3; //3列カラムで常に左側からアニメーションするように
+      this.$vuetify.breakpoint.smAndUp
+        ? Math.floor((id + adjust) / 3) % 2 === 1
+          ? this.slides(target, 100, delay * 0.25)
+          : this.slides(target, -100, delay * 0.25)
+        : id % 2 === 1
+        ? this.slides(target, 100, 0)
+        : this.slides(target, -100, 0);
+    },
+    makeViewsArray() {
+      const length = this.portfolio.length;
+      let items = this.viewItems;
+      this.$vuetify.breakpoint.smAndUp ? (items *= 3) : null;
+      items > length ? (items = length) : null;
+      const array = this.portfolio.map((array) => {
+        return array;
+      });
+      this.portfolioViews = array.slice(0, items);
+      this.viewItems = items;
+    },
+    async addViewsArray() {
+      const length = this.portfolio.length;
+      const index = this.viewItems;
+      let add = this.addedItems;
+      this.$vuetify.breakpoint.smAndUp ? (add *= 3) : null;
+      for (let i = 0; i < add; i++) {
+        if (length > index + i) {
+          await this.portfolioViews.push(this.portfolio[index + i]);
+          this.animationSettings(this.portfolio[index + i].id);
+        }
+      }
+      this.viewItems += add;
+    },
+    animationSlides() {
+      const length = this.portfolio.length;
+      const index = this.viewItems;
+      for (let i = 0; i < index; i++) {
+        const id = length - index + i + 1;
+        this.animationSettings(id);
       }
     },
   },

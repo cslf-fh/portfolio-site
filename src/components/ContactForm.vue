@@ -155,9 +155,16 @@ export default {
       color: '',
       message: '',
     },
+    ResizeObserverHeight: '',
   }),
   mounted() {
-    this.contactFormAnimation();
+    this.animationContactform();
+    this.ResizeDocument('portfolio');
+  },
+  watch: {
+    ResizeObserverHeight() {
+      this.animationContactform();
+    },
   },
   methods: {
     submit() {
@@ -191,7 +198,7 @@ export default {
       this.snackbar.show = true;
     },
     //コンタクトフォームのアニメーション
-    contactFormAnimation() {
+    animationContactform() {
       const target = '.contact-form';
       gsap.fromTo(
         target,
@@ -205,6 +212,7 @@ export default {
             start: 'top 40%',
             //markers: true,
           },
+          overwrite: true,
         }
       );
     },

@@ -53,38 +53,50 @@ export default {
         { heading: 'Portfolio', target: 'portfolio', class: 'is-active--ex' },
         { heading: 'contact', target: 'contact', class: 'is-active' },
       ],
+      ResizeObserverHeight: '',
     };
   },
   mounted() {
-    this.headingsAnimation();
+    this.animationSet();
+    this.ResizeDocument('portfolio');
+  },
+  watch: {
+    ResizeObserverHeight() {
+      const headings = this.headings[2];
+      this.animationHeadings(headings.target, headings.class);
+    },
   },
   methods: {
     //ヘッディングのアニメーション
-    headingsAnimation() {
-      for (const i of this.headings) {
-        let target = i.target;
-        let addClass = i.class;
-        gsap.fromTo(
-          `.${target}`,
-          { autoAlpha: 0, y: 72 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            ease: 'power2.out',
-            duration: 1,
-            scrollTrigger: {
-              trigger: `.${target}`,
-              start: 'top center',
-              //markers: true,
-              //ScrollTriggerイベント発火時にクラスを付けて、擬似要素のアニメーション開始
-              toggleClass: {
-                targets: `.${target}`,
-                className: addClass,
-              },
-              once: true,
+    animationHeadings(target, addClass) {
+      gsap.fromTo(
+        `.${target}`,
+        { autoAlpha: 0, y: 72 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          ease: 'power2.out',
+          duration: 1,
+          scrollTrigger: {
+            trigger: `.${target}`,
+            start: 'top center',
+            //markers: true,
+            //ScrollTriggerイベント発火時にクラスを付けて、擬似要素のアニメーション開始
+            toggleClass: {
+              targets: `.${target}`,
+              className: addClass,
             },
-          }
-        );
+            once: true,
+          },
+          overwrite: true,
+        }
+      );
+    },
+    animationSet() {
+      for (const i of this.headings) {
+        const target = i.target;
+        const addClass = i.class;
+        this.animationHeadings(target, addClass);
       }
     },
   },
