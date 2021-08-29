@@ -145,8 +145,8 @@ export default {
         { name: 'contact', offsetY: '', icon: 'mdi-email' },
       ],
       loading: true, //Loading.vueに渡す値
-      ResizeObserverHeight: '',
-      ResizeObserverWidth: '',
+      ResizeObserverHeight: '', //resizeObserverから受け取る高さ
+      ResizeObserverWidth: '', //resizeObserverから受け取る幅
     };
   },
   created() {
@@ -161,7 +161,7 @@ export default {
     setTimeout(() => {
       this.loading = false;
     }, 2000);
-    this.ResizeDocument('app'); //resizeObserverでdocumentの高さの変更を検知(Mixin)
+    this.ResizeDocument('app'); //resizeObserverでドキュメントの高さの変更を検知(Mixin)
   },
   destroyed() {
     window.removeEventListener('scroll', this.scrollIn);
@@ -188,9 +188,11 @@ export default {
       },
       deep: true,
     },
+    //ドキュメントの高さの変更を検知した時の処理
     ResizeObserverHeight() {
       this.offsets();
     },
+    //ドキュメントの幅の変更を検知した時の処理
     ResizeObserverWidth() {
       this.offsets();
     },

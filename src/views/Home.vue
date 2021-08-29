@@ -92,6 +92,7 @@ export default {
         }
       );
     },
+    //マウント時にヘッディングへのアニメーションの付与
     animationSet() {
       for (const i of this.headings) {
         const target = i.target;

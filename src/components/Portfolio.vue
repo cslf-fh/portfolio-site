@@ -108,8 +108,8 @@ export default {
     return {
       portfolio: [],
       portfolioViews: [],
-      viewItems: 3,
-      addedItems: 3,
+      viewItems: 3, //表示する数
+      addedItems: 3, //追加する数
     };
   },
   async mounted() {
@@ -185,17 +185,20 @@ export default {
         ? this.slides(target, 100, 0)
         : this.slides(target, -100, 0);
     },
+    //描画するポートフォリオの配列の生成
     makeViewsArray() {
       const length = this.portfolio.length;
       let items = this.viewItems;
       this.$vuetify.breakpoint.smAndUp ? (items *= 3) : null;
-      items > length ? (items = length) : null;
+      items > length ? (items = length) : null; //描画する数が元の配列の数より多い場合の処理
+      //新しい配列の生成
       const array = this.portfolio.map((array) => {
         return array;
       });
-      this.portfolioViews = array.slice(0, items);
-      this.viewItems = items;
+      this.portfolioViews = array.slice(0, items); //生成した配列から表示する用の配列を生成
+      this.viewItems = items; //表示する数の更新
     },
+    //描画用の配列に値を追加
     async addViewsArray() {
       const length = this.portfolio.length;
       const index = this.viewItems;
@@ -203,17 +206,19 @@ export default {
       this.$vuetify.breakpoint.smAndUp ? (add *= 3) : null;
       for (let i = 0; i < add; i++) {
         if (length > index + i) {
-          await this.portfolioViews.push(this.portfolio[index + i]);
-          this.animationSettings(this.portfolio[index + i].id);
+          await this.portfolioViews.push(this.portfolio[index + i]); //値の挿入
+          this.animationSettings(this.portfolio[index + i].id); //アニメーションの付与
         }
       }
       this.viewItems += add;
+      this.addedItems = add; //追加する数の更新
     },
+    //最初に描画するスライドのアニメーションの設定
     animationSlides() {
       const length = this.portfolio.length;
       const index = this.viewItems;
       for (let i = 0; i < index; i++) {
-        const id = length - index + i + 1;
+        const id = length - index + i + 1; //reverseしているので、(総数 - 表示数 + 1)で調整(index + 1 = id)
         this.animationSettings(id);
       }
     },
