@@ -11,7 +11,7 @@
 
     <div class="py-16"></div>
 
-    <v-card id="portfolio" ref="portfolio" flat color="transparent">
+    <v-card id="portfolio" ref="portfolio" light flat color="transparent">
       <div class="background-gradation"></div>
       <v-card-title
         :class="['d-inline-flex', 'text-h4', headings[1].target]"
@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import About from '@/components/About.vue';
-import Portfolio from '@/components/Portfolio.vue';
-import ContactForm from '@/components/ContactForm.vue';
+import About from '@/components/views/About.vue';
+import Portfolio from '@/components/views/Portfolio.vue';
+import ContactForm from '@/components/views/ContactForm.vue';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

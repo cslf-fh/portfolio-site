@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import iconQiita from '../assets/qiita.png';
+
 export default {
   name: 'Shares',
   props: {
@@ -50,7 +52,7 @@ export default {
         },
         {
           name: 'qiita',
-          icon: '/qiita.png',
+          icon: iconQiita,
           link: 'https://qiita.com/cslf-fh',
           mdi: false,
         },

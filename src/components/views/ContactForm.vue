@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { functions } from '../plugins/firebase';
+import { functions } from '../../plugins/firebase';
 
 import { required, email, max } from 'vee-validate/dist/rules';
 import {

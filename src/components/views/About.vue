@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { storage } from '../plugins/storage';
+import { storage } from '../../plugins/storage';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -53,7 +53,7 @@ export default {
     if (process.env.VUE_APP_MODE === 'production') {
       this.getStorage();
     } else {
-      import('../assets/api.json').then((object) => {
+      import('../../assets/api.json').then((object) => {
         const data = object.about;
         this.about = data;
         this.textSettings();
