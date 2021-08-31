@@ -101,6 +101,7 @@
       :class="{ 'mb-14': $vuetify.breakpoint.xsOnly }"
       color="orange"
     ></ScrollTop>
+    <ScrollBar :width="5" color="orange"></ScrollBar>
   </v-app>
 </template>
 
@@ -121,6 +122,7 @@ import ScrollTop from '@/components/ScrollTop.vue';
 import Carousel from '@/components/Carousel.vue';
 import Shares from '@/components/Shares.vue';
 import Loading from '@/components/Loading.vue';
+import ScrollBar from '@/components/ScrollBar.vue';
 
 export default {
   name: 'App',
@@ -129,11 +131,12 @@ export default {
     Carousel,
     Shares,
     Loading,
+    ScrollBar,
   },
   data() {
     return {
       section: 0, //現在の表示箇所をナビゲーションのvalueに渡す値
-      sectionMargin: 300, //scrollInによるエフェクトの余白
+      sectionMargin: 300, //SwitchNavigationによるエフェクトの余白
       //リンクに関する値
       links: [
         { name: 'about', offsetY: '', icon: 'mdi-account' },
@@ -156,7 +159,7 @@ export default {
     const routeInstance = this.$route;
     this.createTitleDesc(routeInstance);
     this.offsets();
-    window.addEventListener('scroll', this.scrollIn);
+    window.addEventListener('scroll', this.SwitchNavigation);
     //ローディング画面を非表示に
     setTimeout(() => {
       this.loading = false;
@@ -164,7 +167,7 @@ export default {
     this.ResizeDocument('app'); //resizeObserverでドキュメントの高さの変更を検知(Mixin)
   },
   destroyed() {
-    window.removeEventListener('scroll', this.scrollIn);
+    window.removeEventListener('scroll', this.SwitchNavigation);
   },
   computed: {
     //テーマの切り替え
@@ -234,7 +237,7 @@ export default {
       return this.$vuetify.goTo(offsetY);
     },
     //スクロール量で表示するナビゲーションを設定
-    scrollIn() {
+    SwitchNavigation() {
       const height = [];
       const offset = window.pageYOffset; //ページ上端からのスクロール量
       //ページ下端への到達(ページの高さ - 画面サイズ)

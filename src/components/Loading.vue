@@ -28,14 +28,18 @@ export default {
     this.loader();
     //ローディング画面表示時にスクロール禁止
     document.addEventListener('touchmove', this.noScroll, { passive: false });
-    document.addEventListener('mousewheel', this.noScroll, { passive: false });
+    document.addEventListener('wheel', this.noScroll, { passive: false });
+    document.addEventListener('mousedown', this.noScroll, { passive: false });
   },
   updated() {
     //ローディング画面非表示時にスクロール禁止を解除
     document.removeEventListener('touchmove', this.noScroll, {
       passive: false,
     });
-    document.removeEventListener('mousewheel', this.noScroll, {
+    document.removeEventListener('wheel', this.noScroll, {
+      passive: false,
+    });
+    document.removeEventListener('mousedown', this.noScroll, {
       passive: false,
     });
   },
@@ -47,7 +51,7 @@ export default {
         this.loaderOut();
         setTimeout(() => {
           this.visible = false;
-        }, 2000);
+        }, 1500);
       },
     },
   },
@@ -62,7 +66,7 @@ export default {
           scale: 0.1,
           skew: 120,
           duration: 500,
-          delay: i * 50,
+          delay: i * 30,
           direction: 'normal',
           easing: 'easeInSine',
         });
@@ -100,7 +104,7 @@ export default {
 <style lang="scss" scoped>
 .loading {
   position: relative;
-  z-index: 100;
+  z-index: 500;
 }
 
 @for $i from 1 through 32 {
