@@ -7,8 +7,8 @@
         v-for="i in 5"
         :key="i"
         :class="'slide' + i"
-        :src="url + i + size"
-        :lazy-src="url + i + size"
+        :src="url + i"
+        :lazy-src="url + i"
         height="600px"
         gradient="to top right, rgba(255,255,255,.33), rgba(255,255,255,.7)"
       ></v-img>
@@ -38,8 +38,7 @@ export default {
         speed: 3000,
         pauseOnHover: false,
       },
-      url: 'https://picsum.photos/id/',
-      size: '/1920',
+      url: 'https://picsum.photos/1920?random=',
     };
   },
   mounted() {

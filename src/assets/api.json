@@ -1,15 +1,11 @@
 {
-  "users": [
-    { "userId": 1, "name": "foo", "age": 111 },
-    { "userId": 2, "name": "bar", "age": 222 },
-    { "userId": 3, "name": "baz", "age": 333 }
-  ],
   "about": {
-    "image": "https://cdn.vuetifyjs.com/images/john.jpg",
+    "image": "https://firebasestorage.googleapis.com/v0/b/cslf-fh.appspot.com/o/assets%2Favatar.jpg?alt=media&token=726c559b-c0eb-421a-b546-ba1537b27358",
     "text": [
-      "aaaaaaaaaaaaaaa",
-      "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      "ああああああああああcyあ"
+      "cslf-fhと申します。GitHubに命名されました。",
+      "コロナ禍を機に前々から興味のあったプログラミングの勉強を始める。以来プログラミングの魅力に取りつかれる。",
+      "サッカー、将棋と音楽をこよなく愛する。将棋ウォーズで初段になりたい日々を過ごす。",
+      "お問い合わせ等ございましたら、下記フォームかTwitterよりお願いします。"
     ],
     "language": [
       "HTML / CSS(SCSS) / JavaScript / Vue.js(Vuetify) / PHP / MySQL / WordPress"
@@ -20,8 +16,8 @@
       "id": 1,
       "title": "時計＆お天気Webアプリ",
       "description": "Vue.jsを触り始めた時に作ったものです。\n参考サイト丸パクリでは味気ないのでセレクトボックスから選択できるようにと、OpenWeatherMapのAPIを使用し天気情報の取得と表示を追加しました。",
-      "language": "HTML / CSS / JapaScript(Vue.js)",
-      "image": "https://picsum.photos/id/1/300",
+      "language": "HTML / CSS / JavaScript(Vue.js)",
+      "image": "https://picsum.photos/id/1/960/540",
       "link": "https://clock-2793c.web.app/",
       "dialog": false
     },
@@ -29,126 +25,18 @@
       "id": 2,
       "title": "WordPress構築サイトを静的サイト化",
       "description": "WordPressで構築したサイトを静的サイト化し、Firebaseでホスティングしたものです。\n基となったサイトはテーマから自作しています。",
-      "language": "HTML / CSS / PHP / WordPress / JapaScript(Vue.js)",
-      "image": "https://picsum.photos/id/0/300",
+      "language": "HTML / CSS / PHP / WordPress / JavaScript(Vue.js)",
+      "image": "https://picsum.photos/id/2/960/540",
       "link": "https://sample-6e139.web.app/",
       "dialog": false
     },
     {
       "id": 3,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 4,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 5,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 6,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 7,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 8,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 9,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 10,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 11,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 12,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 13,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 14,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
-      "dialog": false
-    },
-    {
-      "id": 15,
-      "title": "title3",
-      "description": "desc3",
-      "language": "lang3",
-      "image": "img3",
-      "link": "link3",
+      "title": "このサイト",
+      "description": "Firebaseのホスティングを試してみたいと思い、ポートフォリオサイトを作り直しました。\n最初ホスティングだけ触る予定だったのですが他にも色々触ってみました。\nデータベース、クラウドストレージにバックエンドとお手軽に実装でき、さらにほぼほぼ無料で使えるのはすごい。\n使いこなせるよう勉強頑張りましょう。",
+      "language": "HTML / CSS / JavaScript / Vue.js(Vuetify) / Firebase(Hosting/Storage/Functions)",
+      "image": "https://picsum.photos/id/3/960/540",
+      "link": "/",
       "dialog": false
     }
   ]

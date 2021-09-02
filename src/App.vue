@@ -62,12 +62,6 @@
     <Carousel></Carousel>
 
     <v-main>
-      <v-tabs>
-        <v-tab to="/">home</v-tab>
-        <v-tab to="/about">about</v-tab>
-        <v-tab to="/storage">storage</v-tab>
-        <v-tab to="/anime">anime</v-tab>
-      </v-tabs>
       <router-view />
     </v-main>
 
