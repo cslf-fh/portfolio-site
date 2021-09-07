@@ -175,6 +175,7 @@ export default {
   }
   &--active {
     padding: 100vh 100vw;
+    cursor: grab;
   }
   &--show {
     opacity: 1;
