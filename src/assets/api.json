@@ -36,7 +36,7 @@
       "description": "Firebaseのホスティングを試してみたいと思い、ポートフォリオサイトを作り直しました。\n最初ホスティングだけ触る予定だったのですが他にも色々触ってみました。\nデータベース、クラウドストレージにバックエンドとお手軽に実装でき、さらにほぼほぼ無料で使えるのはすごい。\n使いこなせるよう勉強頑張りましょう。",
       "language": "HTML / CSS / JavaScript / Vue.js(Vuetify) / Firebase(Hosting/Storage/Functions)",
       "image": "https://picsum.photos/id/3/960/540",
-      "link": "/",
+      "link": "https://github.com/cslf-fh/portfolio-site",
       "dialog": false
     }
   ]
