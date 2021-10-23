@@ -38,6 +38,15 @@
       "image": "https://picsum.photos/id/3/960/540",
       "link": "https://github.com/cslf-fh/portfolio-site",
       "dialog": false
+    },
+    {
+      "id": 4,
+      "title": "対局時計",
+      "description": "PWAを試してみたいと思い、対局時計を作ってみました。\nAndroidユーザなので、iOSでの動作確認ができなかったのが心残り…",
+      "language": "HTML / CSS / JavaScript / Vue.js(Vuetify)",
+      "image": "https://picsum.photos/id/4/960/540",
+      "link": "https://shogi-tools.web.app/chess-clock",
+      "dialog": false
     }
   ]
 }
