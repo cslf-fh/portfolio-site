@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import { storage } from '../../plugins/storage';
+import { storage } from '@/plugins/firebase';
+import { ref, getDownloadURL } from 'firebase/storage';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -66,9 +67,8 @@ export default {
   methods: {
     getStorage() {
       this.about = [];
-      const json = storage.ref('assets/api.json');
-      json
-        .getDownloadURL()
+      const storageRef = ref(storage, 'assets/api.json');
+      getDownloadURL(storageRef)
         .then((url) => {
           return this.$axios.get(url);
         })

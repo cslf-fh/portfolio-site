@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import vuetify from './plugins/vuetify';
+import { analytics } from './plugins/firebase';
 import axios from 'axios';
 import './plugins/firebase';
 import './assets/css/reset.css';
@@ -17,5 +18,6 @@ Vue.mixin(Mixins);
 new Vue({
   router,
   vuetify,
+  analytics,
   render: (h) => h(App),
 }).$mount('#app');

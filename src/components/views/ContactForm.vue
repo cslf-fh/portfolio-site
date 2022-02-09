@@ -111,7 +111,11 @@
 </template>
 
 <script>
-import { functions } from '../../plugins/firebase';
+import { functions } from '@/plugins/firebase';
+import { httpsCallable, connectFunctionsEmulator } from 'firebase/functions';
+if (process.env.NODE_ENV === 'development') {
+  connectFunctionsEmulator(functions, 'localhost', 5001);
+}
 
 import { required, email, max } from 'vee-validate/dist/rules';
 import {
@@ -170,7 +174,7 @@ export default {
     submit() {
       if (this.$refs.observer.validate()) {
         this.contactForm.loading = true;
-        const mailer = functions.httpsCallable('sendMail');
+        const mailer = httpsCallable(functions, 'sendMail');
 
         mailer(this.contactForm)
           .then(() => {
